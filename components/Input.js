@@ -3,6 +3,7 @@ import { TextInput, StyleSheet } from "react-native"
 export default function input({ onChange, value, placeholder,keyboardType,secureTextEntry=false }) {
     return (
         <TextInput
+        placeholderTextColor="#E8D3EE"
             keyboardType={keyboardType}
             secureTextEntry={secureTextEntry}
             placeholder={placeholder}
