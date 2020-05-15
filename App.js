@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from "./screens/Login"
 import Register from "./screens/Register"
 import Home from "./screens/Home"
+import NewsDetail from "./screens/NewsDetail"
 
 const AuthStack = createStackNavigator();
 const AppStack = createStackNavigator();
@@ -18,17 +19,21 @@ const fetchFonts = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
       <AuthStack.Navigator headerMode="screen">
-        <AuthStack.Screen options={{headerTransparent:true, headerStyle: { backgroundColor: "white", borderBottomWidth: 0 }, headerShown: true, headerTintColor: "#9E58B2" }}
+        <AuthStack.Screen options={{ headerTransparent: true, headerStyle: { backgroundColor: "white", borderBottomWidth: 0 }, headerShown: true, headerTintColor: "#9E58B2" }}
           name="Login" component={LoginScreen} />
         <AuthStack.Screen
-          options={{headerTransparent:true, headerStyle: { backgroundColor: "white", borderBottomWidth: 0 }, headerShown: true, headerTintColor: "#9E58B2" }}
+          options={{ headerTransparent: true, headerStyle: { backgroundColor: "white", borderBottomWidth: 0 }, headerShown: true, headerTintColor: "#9E58B2" }}
           name="Register" component={Register} />
         <AppStack.Screen
-         options={{headerShown: false}}
+          options={{ headerShown: false }}
 
           name="Home" component={Home} />
+        <AppStack.Screen
+          options={{ headerShown: false }}
+
+          name="NewsDetail" component={NewsDetail} />
       </AuthStack.Navigator>
       {/* <AppStack.Navigator headerMode="none">
      
