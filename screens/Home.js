@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, RefreshControl, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, Alert, Animated } from "react-native"
+import { View, RefreshControl, Text, StyleSheet, Dimensions, ScrollView, SafeAreaView, Alert, Animated, StatusBar, Platform } from "react-native"
 import Header from "../components/homeHeader"
 import Card from "../components/NewsCard/index"
 import CategoriesCard from "../components/categoriesCards/Index"
@@ -22,6 +22,9 @@ export default function Home({ navigation }) {
     const goDetail = (content) => {
         navigation.navigate("NewsDetail", content)
     }
+    const goCategoryNews = (category) => {
+        navigation.navigate("CategoryNews", category)
+    }
     const HEADER_MIN_HEIGHT = 60;
     const HEADER_MAX_HEIGHT = 90;
     const headerHeight = scrollY.interpolate({
@@ -36,39 +39,45 @@ export default function Home({ navigation }) {
     });
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle={Platform.OS === "ios" ? "dark-content" : "default"} />
             <View style={{ flex: 1 }}>
-                <ScrollView
-                    onScroll={Animated.event(
-                        [{ nativeEvent: { contentOffset: { y: scrollY } } }]
-                    )}
-                    style={{ flex: 1, }}
-                    refreshControl={
-                        <RefreshControl refreshing={refreshing} onRefresh={getNews} />
-                    }>
+                <View style={{ flex: 1 }}>
+                    <Animated.View style={{ height: headerHeight }} />
 
-                    {
-                        news === null ? <Text style={{ alignSelf: "center" }}>Loading</Text> : (
-                            <ScrollView horizontal={true} style={{ paddingLeft: 10 }} showsHorizontalScrollIndicator={false}>
-                                {
-                                    news.articles.map((item, i) => <Card content={item} goDetail={goDetail} key={i} title={item.title} newsImage={item.urlToImage} />)
-                                }
-                            </ScrollView>)
-                    }
-                    <View style={{ paddingLeft: "4%", paddingRight: "4%", marginTop: 15, marginBottom: 15, justifyContent: "center" }}>
-                        <Text style={styles.subtitle}>News Categories</Text>
-                    </View>
-                    <View style={styles.categoriesCardsContainer}>
-                        <CategoriesCard title={"Business"} Image={require("../assets/business.jpg")} />
-                        <CategoriesCard title={"Entertainment"} Image={require("../assets/entertaiment.jpg")} />
-                        <CategoriesCard title={"Health"} Image={require("../assets/healt.jpg")} />
-                        <CategoriesCard title={"Science"} Image={require("../assets/space.jpg")} />
-                        <CategoriesCard title={"Sports"} Image={require("../assets/soccer.jpg")} />
-                        <CategoriesCard title={"Technology"} Image={require("../assets/phone.jpg")} />
-                        <View style={{ width: "100%", height: 20 }} />
-                    </View>
+                    <ScrollView
+                        onScroll={Animated.event(
+                            [{ nativeEvent: { contentOffset: { y: scrollY } } }]
+                        )}
+                        style={{ flex: 1, }}
+                        scrollEventThrottle={16}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={getNews} />
+                        }>
+                        {
+                            news === null || news.status === "error" ? <Text style={{ alignSelf: "center", marginTop: 35 }}>Loading</Text> : (
+                                <ScrollView horizontal={true} style={{ paddingLeft: 10 }} showsHorizontalScrollIndicator={false}>
+                                    {
+                                        news.articles.map((item, i) => <Card content={item} goDetail={goDetail} key={i} title={item.title} newsImage={item.urlToImage} />)
+                                    }
+                                </ScrollView>)
+                        }
+                        <View style={{ paddingLeft: "4%", paddingRight: "4%", marginTop: 15, justifyContent: "center" }}>
+                            <Text style={styles.subtitle}>News Categories</Text>
+                        </View>
+                        <View style={styles.categoriesCardsContainer}>
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Business"} Image={require("../assets/business.jpg")} />
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Entertainment"} Image={require("../assets/entertaiment.jpg")} />
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Health"} Image={require("../assets/healt.jpg")} />
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Science"} Image={require("../assets/space.jpg")} />
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Sports"} Image={require("../assets/soccer.jpg")} />
+                            <CategoriesCard goCategoryNews={goCategoryNews} title={"Technology"} Image={require("../assets/phone.jpg")} />
+                            <View style={{ width: "100%", height: 20 }} />
+                        </View>
 
 
-                </ScrollView>
+                    </ScrollView>
+                </View>
+
 
 
 
@@ -82,6 +91,7 @@ export default function Home({ navigation }) {
                         backgroundColor: "white",
                         width: Dimensions.get("window").width,
                         height: headerHeight,
+                        justifyContent: "center"
                     }}
                 >
                     <Header fontSize={headerTitleFontSize} title={"News"} backButton={false} />
@@ -99,7 +109,8 @@ const styles = StyleSheet.create({
         flex: 1
     }, subtitle: {
         fontSize: 30,
-        fontWeight: "bold"
+        fontFamily: "oswald-bold",
+
     }, categoriesContainer: {
         width: "100%",
 

@@ -1,18 +1,13 @@
 import React from 'react'
 import { View, StyleSheet, Animated, Text, TouchableOpacity } from "react-native"
-import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 export default function index({ title, backButton, fontSize }) {
-    console.log("fontsize:", fontSize)
     return (
         <View style={styles.container}>
             <Animated.Text style={[styles.title, { fontSize: fontSize }]}>{title}</Animated.Text>
-            {
-                backButton ? (
-                    <TouchableOpacity>
-                        <MaterialIcons name="keyboard-arrow-left" size={40} color="black" />
-                    </TouchableOpacity>
-                ) : null
-            }
+            <TouchableOpacity>
+                <Entypo name="login" size={25} style={{marginTop:10}} color="black" />
+            </TouchableOpacity>
 
         </View>
     )
@@ -29,6 +24,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {
-        fontWeight: "bold"
+        fontFamily: "oswald-bold",
     }
 })

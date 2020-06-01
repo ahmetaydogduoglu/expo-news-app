@@ -5,7 +5,7 @@ export default function index({ title, newsImage, goDetail, content }) {
         <TouchableOpacity style={styles.container} onPress={()=>goDetail(content)}>
             <ImageBackground source={newsImage ? { uri: newsImage } : null} style={styles.image} width="100%" height="100%">
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>{title}</Text>
+                    <Text numberOfLines={3} style={styles.titleText}>{title}</Text>
                 </View>
 
             </ImageBackground>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         padding: "2%"
     }, titleText: {
         color: "white",
-        fontSize: 25
+        fontSize: 25,
+        fontFamily:"oswald-regular"
     }
 })
