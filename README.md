@@ -3,4 +3,4 @@ news app scrollable header
 
 
 app view
-[./app.gif]
+![](app.gif)
