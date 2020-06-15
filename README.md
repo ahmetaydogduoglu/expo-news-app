@@ -1,5 +1,5 @@
 # expo-news-app
-news app scrollable header 
+news app scrollable header !!
 app view
 
 
